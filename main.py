@@ -40,7 +40,10 @@ def download_tree(rootpath, tree):
     for (key, file) in tree.items():
         path = os.path.join(rootpath, key)
         if isinstance(file, GoogleDriveFile):
-            download_file(path, file)
+            if os.path.exists(path):
+                print(path, "exists already, skip")
+            else:
+                download_file(path, file)
         elif (type(file) == dict):  # GoogleDriveFile subclasses dict ouch!
             download_tree(path, file)
         else:
