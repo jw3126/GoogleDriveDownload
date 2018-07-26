@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import os
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
@@ -13,6 +14,7 @@ def get_filename(file):
     return file["title"]
 
 def get_files_recursive(drive, parent):
+    print("get_files_recursive {}".format(parent))
     d = dict()
     file_list = drive.ListFile({'q': "'%s' in parents and trashed=false" % parent}).GetList()
     for file in file_list:
@@ -54,5 +56,6 @@ if __name__ == "__main__":
     gauth = GoogleAuth()
     gauth.LocalWebserverAuth() # Creates local webserver and auto handles authentication.
     drive = GoogleDrive(gauth)
+    print("drive={}".format(drive))
     tree = get_filetree(drive)
     download_tree("dump", tree)
